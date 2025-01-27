@@ -19,7 +19,6 @@
       height: 100%;
     }
 
-    /* 星のアニメーション */
     .star {
       position: absolute;
       border-radius: 50%;
@@ -116,7 +115,6 @@
       height: auto;
     }
 
-    /* スマホサイズの調整 */
     @media (max-width: 768px) {
       body {
         background-size: 30px 30px, 15px 15px;
@@ -144,7 +142,6 @@
       }
     }
 
-    /* ニュースセクションのスタイル (背景を透明に変更) */
     .news {
       padding: 20px;
       margin-top: 50px;
@@ -168,18 +165,15 @@
   </style>
 </head>
 <body>
-  <!-- 背景の星 -->
   <div class="star" style="top: 10%; left: 10%; width: 5px; height: 5px; --rand-x-1: 200px; --rand-y-1: 100px; --rand-x-2: -200px; --rand-y-2: -150px;"></div>
   <div class="star" style="top: 20%; left: 30%; width: 8px; height: 8px; --rand-x-1: -150px; --rand-y-1: 50px; --rand-x-2: 100px; --rand-y-2: -100px;"></div>
 
-  <!-- コンテンツ -->
   <div class="container">
     <div class="kenkun">
       <img src="images/kenkun1.png" alt="kenkun1">
     </div>
     <div class="slider-container">
       <div class="image-slider" id="imageSlider">
-        <!-- 画像が動的に挿入されます -->
       </div>
     </div>
     <br>
@@ -187,7 +181,6 @@
     <button class="button" id="nextButton" onclick="nextSlide()">＞</button>
   </div>
 
-  <!-- ニュースセクション -->
   <div class="news">
     <h2>ニュース</h2>
     <p>制作開始！2025年1月27日 第一回 <a href="https://kenkun399be.github.io/oc_meeting/" target="_blank">制作会議</a>で制作方針確定！</p>
