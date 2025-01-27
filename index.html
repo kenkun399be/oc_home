@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>コマンドOC イベント</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+      background-color: #f8d7da;
+      background-image: radial-gradient(circle, rgba(255, 255, 255, 0.1) 1px, transparent 1px), radial-gradient(circle, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+      background-size: 20px 20px, 10px 10px;
+      background-position: 0 0, 10px 10px;
+      position: relative;
+      overflow-x: hidden;
+      height: 100%;
+    }
+
+    /* 星のアニメーション */
+    .star {
+      position: absolute;
+      border-radius: 50%;
+      background: white;
+      animation: star-animation 10s infinite;
+      opacity: 0.8;
+    }
+
+    @keyframes star-animation {
+      0% { transform: scale(0) translateX(0) translateY(0); opacity: 1; }
+      50% { transform: scale(1) translateX(var(--rand-x-1)) translateY(var(--rand-y-1)); opacity: 0.5; }
+      100% { transform: scale(0) translateX(var(--rand-x-2)) translateY(var(--rand-y-2)); opacity: 1; }
+    }
+
+    .container {
+      display: inline-block;
+      position: relative;
+      width: 100%;
+    }
+
+    .slider-container {
+      display: inline-block;
+      width: 100%;
+      overflow: hidden;
+    }
+
+    .image-slider {
+      display: flex;
+      transition: transform 0.5s ease-in-out;
+    }
+
+    .image-slider .image-wrapper {
+      position: relative;
+      overflow: hidden;
+      width: 638.98px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 50px;
+      height: 359px;
+    }
+
+    .image-slider img {
+      object-fit: cover;
+      width: 100%;
+      height: 100%;
+      transition: transform 0.35s ease-in-out;
+      cursor: pointer;
+    }
+
+    .image-slider .image-wrapper::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: 5px solid red;
+      opacity: 0;
+      transition: opacity 0.3s ease-in-out;
+      pointer-events: none;
+    }
+
+    .image-slider .image-wrapper:hover::before {
+      opacity: 1;
+    }
+
+    .image-slider img:hover {
+      transform: scale(1.1);
+    }
+
+    .image-slider .spacer {
+      width: 10px;
+    }
+
+    .button {
+      cursor: pointer;
+      padding: 10px;
+      background-color: #f00;
+      color: white;
+      border: none;
+      border-radius: 50px;
+      margin: 20px;
+      font-size: 18px;
+    }
+
+    .kenkun {
+      text-align: center;
+      margin: 20px 0;
+    }
+
+    .kenkun img {
+      max-width: 100%;
+      height: auto;
+    }
+
+    /* スマホサイズの調整 */
+    @media (max-width: 768px) {
+      body {
+        background-size: 30px 30px, 15px 15px;
+      }
+
+      .container {
+        width: 100%;
+        padding: 0 15px;
+      }
+
+      .slider-container {
+        width: 100%;
+      }
+
+      .image-slider .image-wrapper {
+        width: 70vw;
+        height: 40vw;
+      }
+
+      .button {
+        font-size: 14px;
+        display: inline-block;
+        margin: 20px;
+        padding: 10px;
+      }
+    }
+
+    /* ニュースセクションのスタイル (背景を透明に変更) */
+    .news {
+      padding: 20px;
+      margin-top: 50px;
+      text-align: left;
+      border-top: 1px solid #00000080;
+    }
+
+    .news h2 {
+      font-size: 24px;
+      margin-bottom: 15px;
+    }
+
+    .news p {
+      margin: 10px 0;
+    }
+
+    .news p:not(:last-child) {
+      border-bottom: 1px solid #00000080;
+      padding-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+  <!-- 背景の星 -->
+  <div class="star" style="top: 10%; left: 10%; width: 5px; height: 5px; --rand-x-1: 200px; --rand-y-1: 100px; --rand-x-2: -200px; --rand-y-2: -150px;"></div>
+  <div class="star" style="top: 20%; left: 30%; width: 8px; height: 8px; --rand-x-1: -150px; --rand-y-1: 50px; --rand-x-2: 100px; --rand-y-2: -100px;"></div>
+
+  <!-- コンテンツ -->
+  <div class="container">
+    <div class="kenkun">
+      <img src="images/kenkun1.png" alt="kenkun1">
+    </div>
+    <div class="slider-container">
+      <div class="image-slider" id="imageSlider">
+        <!-- 画像が動的に挿入されます -->
+      </div>
+    </div>
+    <br>
+    <button class="button" id="prevButton" onclick="prevSlide()">＜</button>
+    <button class="button" id="nextButton" onclick="nextSlide()">＞</button>
+  </div>
+
+  <!-- ニュースセクション -->
+  <div class="news">
+    <h2>ニュース</h2>
+    <p>制作開始！2025年1月27日 第一回 制作会議で制作方針確定！</p>
+    <p>サーバー公開！制作用にロビーサーバーが公開されました！</p>
+    <p>ついに開催！コマンドoc初のイベント！</p>
+  </div>
+
+  <script>
+    const slider = document.getElementById("imageSlider");
+    const imageWidth = 638.98;
+    const spacerWidth = 10;
+    const containerWidth = window.innerWidth;
+    const visibleImages = Math.floor(containerWidth / (imageWidth + spacerWidth));
+
+    let imagesData = [];
+    for (let i = 0; i < 10; i++) {
+      imagesData.push("images/live.png");
+      imagesData.push("images/mail.png");
+    }
+
+    let imageHTML = '';
+    imagesData.forEach(src => {
+      if (src === "images/mail.png") {
+        imageHTML += `<div class="image-wrapper" onclick="redirectToMail()"><img src="${src}" alt="image"></div>`;
+      } else {
+        imageHTML += `<div class="image-wrapper"><img src="${src}" alt="image"></div>`;
+      }
+      imageHTML += `<div class="spacer"></div>`;
+    });
+
+    slider.innerHTML = imageHTML;
+    let currentImage = Math.floor(5);
+    slider.style.width = `${(imageWidth + spacerWidth) * imagesData.length}px`;
+    slider.style.transform = `translateX(-${currentImage * (imageWidth + spacerWidth)}px)`;
+
+    function nextSlide() {
+      if (currentImage < imagesData.length - visibleImages) {
+        currentImage++;
+        slider.style.transition = "transform 0.5s ease-in-out";
+        slider.style.transform = `translateX(-${currentImage * (imageWidth + spacerWidth)}px)`;
+      }
+      if (currentImage >= 7) {
+        setTimeout(() => {
+          slider.style.transition = "none";
+          currentImage = Math.floor(5);
+          slider.style.transform = `translateX(-${currentImage * (imageWidth + spacerWidth)}px)`;
+        }, 500);
+      }
+    }
+
+    function prevSlide() {
+      if (currentImage > 0) {
+        currentImage--;
+        slider.style.transition = "transform 0.5s ease-in-out";
+        slider.style.transform = `translateX(-${currentImage * (imageWidth + spacerWidth)}px)`;
+      }
+      if (currentImage <= 3) {
+        setTimeout(() => {
+          slider.style.transition = "none";
+          currentImage = Math.floor(5);
+          slider.style.transform = `translateX(-${currentImage * (imageWidth + spacerWidth)}px)`;
+        }, 500);
+      }
+    }
+
+    function redirectToMail() {
+      window.location.href = "https://forms.gle/fApCpsGSisHkPkTh7";
+    }
+  </script>
+</body>
+</html>
