@@ -190,7 +190,7 @@
   <!-- ニュースセクション -->
   <div class="news">
     <h2>ニュース</h2>
-    <p>制作開始！2025年1月27日 第一回 制作会議で制作方針確定！</p>
+    <p>制作開始！2025年1月27日 第一回 <a href="https://kenkun399be.github.io/oc_meeting/" target="_blank">制作会議</a>で制作方針確定！</p>
     <p>サーバー公開！制作用にロビーサーバーが公開されました！</p>
     <p>ついに開催！コマンドoc初のイベント！</p>
   </div>
@@ -201,28 +201,30 @@
     const spacerWidth = 10;
     const containerWidth = window.innerWidth;
     const visibleImages = Math.floor(containerWidth / (imageWidth + spacerWidth));
-
+  
     let imagesData = [];
     for (let i = 0; i < 10; i++) {
       imagesData.push("images/live.png");
       imagesData.push("images/mail.png");
     }
-
+  
     let imageHTML = '';
     imagesData.forEach(src => {
       if (src === "images/mail.png") {
         imageHTML += `<div class="image-wrapper" onclick="redirectToMail()"><img src="${src}" alt="image"></div>`;
+      } else if (src === "images/live.png") {
+        imageHTML += `<div class="image-wrapper" onclick="redirectToLive()"><img src="${src}" alt="image"></div>`;
       } else {
         imageHTML += `<div class="image-wrapper"><img src="${src}" alt="image"></div>`;
       }
       imageHTML += `<div class="spacer"></div>`;
     });
-
+  
     slider.innerHTML = imageHTML;
     let currentImage = Math.floor(5);
     slider.style.width = `${(imageWidth + spacerWidth) * imagesData.length}px`;
     slider.style.transform = `translateX(-${currentImage * (imageWidth + spacerWidth)}px)`;
-
+  
     function nextSlide() {
       if (currentImage < imagesData.length - visibleImages) {
         currentImage++;
@@ -237,7 +239,7 @@
         }, 500);
       }
     }
-
+  
     function prevSlide() {
       if (currentImage > 0) {
         currentImage--;
@@ -252,9 +254,13 @@
         }, 500);
       }
     }
-
+  
     function redirectToMail() {
       window.location.href = "https://forms.gle/fApCpsGSisHkPkTh7";
+    }
+  
+    function redirectToLive() {
+      window.location.href = "https://kenkun399be.github.io/oc_meeting/";
     }
   </script>
 </body>
