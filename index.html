@@ -162,6 +162,32 @@
       border-bottom: 1px solid #00000080;
       padding-bottom: 10px;
     }
+
+    table {
+      width: 80%;
+      margin: 20px auto;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      border: 1px solid black;
+      padding: 8px;
+      text-align: center;
+    }
+
+    h2.heading {
+      text-align: left;
+      font-size: 3em;
+      margin-bottom: 20px;
+      margin-left: 20px;
+    }
+
+    p.description {
+      text-align: left;
+      font-size: 1em;
+      margin-left: 20px; 
+      margin-bottom: 20px; 
+    }
   </style>
 </head>
 <body>
@@ -181,6 +207,78 @@
     <button class="button" id="nextButton" onclick="nextSlide()">＞</button>
   </div>
 
+  <h2 class="heading">ベッドウォーズ担当</h2>
+  <p class="description">※担当しているものが完成した場合はけんくんに報告してください</p>
+
+  <table>
+    <tr>
+      <th>項目</th>
+      <th>担当</th>
+      <th>完成</th>
+    </tr>
+    <tr>
+      <td>ショップ</td>
+      <td>プリン</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>死亡検知</td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>じぇね</td>
+      <td>とも</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>奈落</td>
+      <td>マイクラすきやで</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>ベッド</td>
+      <td>ぬし</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>ランキング</td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>アップグレード</td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>ゲーム終了</td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>開始のカウントダウン</td>
+      <td>たけぴー</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>チーム分け</td>
+      <td></td>
+      <td></td>
+    </tr>
+  </table>
+
+  <h2 class="heading">イベント参加方法</h2>
+  <p class="description">イベントに参加する前に2つ条件があります。</p>
+  <p class="description">1.Microsoftアカウントにログインしていること。</p>
+  <p class="description">2.ワールドを荒らさないこと</p>
+  <br>
+  <p class="description">条件を確認したら、このイベントの情報が記載されている大事なノートにいいねを押してください。</p>
+  <p class="description">kenkun499cmd にフレンド申請をしてください。</p>
+  <p class="description">申請後、最遅24時間で承認します。</p>
+  <p class="description">承認されたら、フレンドタブでkenkun499CMD 制作ワールド というワールドが出てくるので、そのワールドに参加してください。</p>
+  <p class="description">参加出来たら、棒を右クリックすることでロビーとBed Warsサーバーを行き来できます。</p>
+
   <div class="news">
     <h2>ニュース</h2>
     <p>制作開始！2025年1月27日 第一回 <a href="https://kenkun399be.github.io/oc_meeting/" target="_blank">制作会議</a>で制作方針確定！</p>
@@ -188,73 +286,61 @@
     <p>ついに開催！コマンドoc初のイベント！</p>
   </div>
 
+  
+
   <script>
     const slider = document.getElementById("imageSlider");
     const imageWidth = 638.98;
     const spacerWidth = 10;
-    const containerWidth = window.innerWidth;
-    const visibleImages = Math.floor(containerWidth / (imageWidth + spacerWidth));
-  
-    let imagesData = [];
-    for (let i = 0; i < 10; i++) {
-      imagesData.push("images/live.png");
-      imagesData.push("images/mail.png");
-    }
-  
+    let visibleImages = Math.max(1, Math.floor(window.innerWidth / (imageWidth + spacerWidth)));
+
+    let imagesData = ["images/live.png", "images/mail.png", "images/live.png", "images/mail.png", "images/live.png", "images/mail.png", "images/live.png", "images/mail.png", "images/live.png", "images/mail.png"];
+
     let imageHTML = '';
     imagesData.forEach(src => {
+      let wrapperClass = "image-wrapper";
+      let onclickFunction = "";
       if (src === "images/mail.png") {
-        imageHTML += `<div class="image-wrapper" onclick="redirectToMail()"><img src="${src}" alt="image"></div>`;
+        onclickFunction = "redirectToMail()";
       } else if (src === "images/live.png") {
-        imageHTML += `<div class="image-wrapper" onclick="redirectToLive()"><img src="${src}" alt="image"></div>`;
-      } else {
-        imageHTML += `<div class="image-wrapper"><img src="${src}" alt="image"></div>`;
+        onclickFunction = "redirectToLive()";
       }
-      imageHTML += `<div class="spacer"></div>`;
+      imageHTML += `<div class="${wrapperClass}" onclick="${onclickFunction}"><img src="${src}" alt="image"></div><div class="spacer"></div>`;
     });
-  
+
     slider.innerHTML = imageHTML;
-    let currentImage = Math.floor(5);
+    let currentImage = Math.floor(imagesData.length / 2 - visibleImages / 2);
     slider.style.width = `${(imageWidth + spacerWidth) * imagesData.length}px`;
     slider.style.transform = `translateX(-${currentImage * (imageWidth + spacerWidth)}px)`;
-  
+
     function nextSlide() {
       if (currentImage < imagesData.length - visibleImages) {
         currentImage++;
         slider.style.transition = "transform 0.5s ease-in-out";
         slider.style.transform = `translateX(-${currentImage * (imageWidth + spacerWidth)}px)`;
       }
-      if (currentImage >= 7) {
-        setTimeout(() => {
-          slider.style.transition = "none";
-          currentImage = Math.floor(5);
-          slider.style.transform = `translateX(-${currentImage * (imageWidth + spacerWidth)}px)`;
-        }, 500);
-      }
     }
-  
+
     function prevSlide() {
       if (currentImage > 0) {
         currentImage--;
         slider.style.transition = "transform 0.5s ease-in-out";
         slider.style.transform = `translateX(-${currentImage * (imageWidth + spacerWidth)}px)`;
       }
-      if (currentImage <= 3) {
-        setTimeout(() => {
-          slider.style.transition = "none";
-          currentImage = Math.floor(5);
-          slider.style.transform = `translateX(-${currentImage * (imageWidth + spacerWidth)}px)`;
-        }, 500);
-      }
     }
-  
+
     function redirectToMail() {
       window.location.href = "https://forms.gle/fApCpsGSisHkPkTh7";
     }
-  
+
     function redirectToLive() {
       window.location.href = "https://kenkun399be.github.io/oc_meeting/";
     }
+    window.addEventListener('resize', () => {
+      visibleImages = Math.max(1, Math.floor(window.innerWidth / (imageWidth + spacerWidth)));
+      currentImage = Math.floor(imagesData.length / 2 - visibleImages / 2);
+      slider.style.transform = `translateX(-${currentImage * (imageWidth + spacerWidth)}px)`;
+    });
   </script>
 </body>
 </html>
