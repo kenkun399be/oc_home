@@ -212,7 +212,7 @@
 
   <table>
     <tr>
-      <th>項目</th>
+      <th> </th>
       <th>担当</th>
       <th>完成</th>
     </tr>
@@ -257,7 +257,7 @@
       <td></td>
     </tr>
     <tr>
-      <td>開始のカウントダウン</td>
+      <td>ゲーム開始</td>
       <td>たけぴー</td>
       <td></td>
     </tr>
@@ -286,15 +286,13 @@
     <p>ついに開催！コマンドoc初のイベント！</p>
   </div>
 
-  
-
   <script>
     const slider = document.getElementById("imageSlider");
     const imageWidth = 638.98;
     const spacerWidth = 10;
-    let visibleImages = Math.max(1, Math.floor(window.innerWidth / (imageWidth + spacerWidth)));
+    let currentImage = 0;
 
-    let imagesData = ["images/live.png", "images/mail.png", "images/live.png", "images/mail.png", "images/live.png", "images/mail.png", "images/live.png", "images/mail.png", "images/live.png", "images/mail.png"];
+    let imagesData = ["images/live.png", "images/mail.png" , "images/oc.png"];
 
     let imageHTML = '';
     imagesData.forEach(src => {
@@ -304,17 +302,19 @@
         onclickFunction = "redirectToMail()";
       } else if (src === "images/live.png") {
         onclickFunction = "redirectToLive()";
+      } else if (src === "images/oc.png") {
+        onclickFunction = "redirectToOc()";
       }
       imageHTML += `<div class="${wrapperClass}" onclick="${onclickFunction}"><img src="${src}" alt="image"></div><div class="spacer"></div>`;
     });
 
     slider.innerHTML = imageHTML;
-    let currentImage = Math.floor(imagesData.length / 2 - visibleImages / 2);
     slider.style.width = `${(imageWidth + spacerWidth) * imagesData.length}px`;
-    slider.style.transform = `translateX(-${currentImage * (imageWidth + spacerWidth)}px)`;
+    slider.style.transform = `translateX(0px)`;
+
 
     function nextSlide() {
-      if (currentImage < imagesData.length - visibleImages) {
+      if (currentImage < imagesData.length -1) {
         currentImage++;
         slider.style.transition = "transform 0.5s ease-in-out";
         slider.style.transform = `translateX(-${currentImage * (imageWidth + spacerWidth)}px)`;
@@ -336,11 +336,10 @@
     function redirectToLive() {
       window.location.href = "https://kenkun399be.github.io/oc_meeting/";
     }
-    window.addEventListener('resize', () => {
-      visibleImages = Math.max(1, Math.floor(window.innerWidth / (imageWidth + spacerWidth)));
-      currentImage = Math.floor(imagesData.length / 2 - visibleImages / 2);
-      slider.style.transform = `translateX(-${currentImage * (imageWidth + spacerWidth)}px)`;
-    });
+
+    function redirectToOc() {
+      window.location.href = "https://line.me/ti/g2/HO3L4y-IZEjH0UYn1onqPy94EQwrSR7AAxE-8w?utm_source=invitation&utm_medium=link_copy&utm_campaign=default";
+    }
   </script>
 </body>
 </html>
